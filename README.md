@@ -1,2 +1,2 @@
 # Lua-MINSTD
-Lehmer random number generator, or MINSTD in C++ written in Lua
+Lehmer random number generator, or MINSTD written in Lua
