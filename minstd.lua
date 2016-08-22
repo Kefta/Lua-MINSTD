@@ -2,8 +2,7 @@ local floor = math.floor
 local time = os.time
 local sqrt = math.sqrt
 local log = math.log
-
-module( "random" )
+local random = {}
 
 -- MINSTD parameters
 local NTAB = 32
@@ -25,13 +24,13 @@ local m_iv = {}
 
 local bTimeSeeded = false
 
-function SetSeed( iSeed )
+function random.SetSeed( iSeed )
 	bTimeSeeded = false
 	m_idum = ((iSeed < 0) and iSeed or -iSeed)
 	m_iy = 0
 end
 
-function SetTimeSeed( iSeed )
+function random.SetTimeSeed( iSeed )
 	bTimeSeeded = true
 	
 	if ( iSeed == 0 ) then
@@ -43,7 +42,7 @@ end
 
 -- Modified Lehmer random number generator
 -- Returns integer [1, 2147483647)
-function RandomNumber()
+function random.RandomNumber()
 	local j = 0
 	local k = 0
 	
@@ -79,7 +78,7 @@ function RandomNumber()
 end
 
 -- Returns float [flLow, flHigh)
-function RandomFloat( flLow --[[= 0]], flHigh --[[= 1]] )
+function random.RandomFloat( flLow --[[= 0]], flHigh --[[= 1]] )
 	if ( bTimeSeeded and m_idum == 0 ) then
 		SetTimeSeed(0)
 	end
@@ -102,7 +101,7 @@ function RandomFloat( flLow --[[= 0]], flHigh --[[= 1]] )
 end
 
 -- Returns float [flLow, flHigh)
-function RandomFloatExp( flLow --[[= 0]], flHigh --[[= 1]], flExponent --[[= 1]] )
+function random.RandomFloatExp( flLow --[[= 0]], flHigh --[[= 1]], flExponent --[[= 1]] )
 	if ( bTimeSeeded and m_idum == 0 ) then
 		SetTimeSeed(0)
 	end
@@ -123,7 +122,7 @@ function RandomFloatExp( flLow --[[= 0]], flHigh --[[= 1]], flExponent --[[= 1]]
 end
 
 -- Returns double [flLow, flHigh)
-function RandomDouble( flLow --[[= 0]], flHigh --[[= 1]] )
+function random.RandomDouble( flLow --[[= 0]], flHigh --[[= 1]] )
 	if ( bTimeSeeded and m_idum == 0 ) then
 		SetTimeSeed(0)
 	end
@@ -145,7 +144,7 @@ function RandomDouble( flLow --[[= 0]], flHigh --[[= 1]] )
 end
 
 -- Returns double [flLow, flHigh)
-function RandomDoubleExp( flLow --[[= 0]], flHigh --[[= 1]], flExponent --[[= 1]] )
+function random.RandomDoubleExp( flLow --[[= 0]], flHigh --[[= 1]], flExponent --[[= 1]] )
 	if ( bTimeSeeded and m_idum == 0 ) then
 		SetTimeSeed(0)
 	end
@@ -164,7 +163,7 @@ function RandomDoubleExp( flLow --[[= 0]], flHigh --[[= 1]], flExponent --[[= 1]
 end
 
 -- Returns integer [iLow, iHigh]
-function RandomInt( iLow --[[= 0]], iHigh --[[= 1]] )
+function random.RandomInt( iLow --[[= 0]], iHigh --[[= 1]] )
 	if ( bTimeSeeded and m_idum == 0 ) then
 		SetTimeSeed(0)
 	end
@@ -208,7 +207,7 @@ end
 local m_bHaveValue = false
 local m_flRandomValue = 0
 
-function RandomGaussianFloat( flMean --[[= 0]], flStdDev --[[= 1]] )
+function random.RandomGaussianFloat( flMean --[[= 0]], flStdDev --[[= 1]] )
 	if (m_bHaveValue) then
 		m_bHaveValue = false
 		
@@ -240,3 +239,5 @@ function RandomGaussianFloat( flMean --[[= 0]], flStdDev --[[= 1]] )
 		return (flStdDev or 1) * (v2 * fac) + (flMean or 0)
 	end
 end
+
+return random
